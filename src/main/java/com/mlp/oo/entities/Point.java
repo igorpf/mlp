@@ -3,26 +3,26 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.mlp.oo.entidades;
+package com.mlp.oo.entities;
 
 /**
  *
  * @author igor
  */
-public class Ponto {
+public class Point {
 
     private int x;
     private int y;
 
-    public Ponto() {
+    public Point() {
     }
 
-    public Ponto(final int x, final int y) {
+    public Point(final int x, final int y) {
         this.x = x;
         this.y = y;
     }
 
-    public Ponto(Ponto p) {
+    public Point(Point p) {
         this.x = p.getX();
         this.y = p.getY();
     }
@@ -43,7 +43,7 @@ public class Ponto {
         this.y = y;
     }
 
-    public boolean isInsideBox(final Ponto boxMin, final Ponto boxMax) {
+    public boolean isInsideBox(final Point boxMin, final Point boxMax) {
         return (this.x > boxMin.getX() && this.y > boxMin.getY()
                 && this.x < boxMax.getX() && this.y < boxMax.getY());
     }
