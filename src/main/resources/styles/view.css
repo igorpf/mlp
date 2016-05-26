@@ -1,0 +1,18 @@
+/*
+ * Empty Stylesheet file.
+ */
+
+.pane {
+    -fx-background-color: #b5c0f8
+}
+.grid {
+    -fx-background-color: #f7f8fd;
+    -fx-border-style: dashed;
+}
+.button {
+    -fx-border-style: dotted;
+    -fx-border-color: #FF0000;
+}
+.label {
+    -fx-border-color: red;
+}
