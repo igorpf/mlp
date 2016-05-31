@@ -16,9 +16,9 @@ public class TetrominoT extends Tetromino{
      *  To change the tetromino form, use the method setForm(form)
      */
     public static final boolean [][]FORM = {{false, false, false,false},
+                                            {false, false, false, false},
                                             {false, true, true, true},
-                                            {false, false, true, false},
-                                            {false, false, false,  false}};
+                                            {false, false, true,  false}};
     public TetrominoT() {
         super(Color.DARKMAGENTA,FORM);
     }

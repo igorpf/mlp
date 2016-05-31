@@ -5,6 +5,7 @@
  */
 package com.mlp.oo.entities;
 
+import javafx.geometry.Point2D;
 import javafx.scene.paint.Color;
 
 /**
@@ -19,31 +20,30 @@ public abstract class Tetromino {
 
     private boolean[][] block;
 
-    private Point min;
+    private Point2D min;
 
-    private Point max;
+    private Point2D max;
 
     public Tetromino() {
         this.color = Color.BLACK;
         this.block = new boolean[][]{{false}, {false}};
-        this.min = new Point(0,0);
-        this.min = new Point(3,3);
+        this.min = new Point2D(0,0);
+        this.max = new Point2D(3,3);
     }
 
     public Tetromino(Color cor, boolean[][] bloco) {
         this.color = cor;
         this.block = bloco;
-        this.min = new Point(0,0);
-        this.min = new Point(3,3);
+        this.min = new Point2D(0,0);
+        this.max = new Point2D(3,3);
     }
     
-    public Tetromino(Color cor, boolean[][] bloco, Point min) {
+    public Tetromino(Color cor, boolean[][] bloco, Point2D min) {
         this.color = cor;
         this.block = bloco;
         this.min = min;
-        this.max = new Point(min);
-        this.max.setX(this.min.getX()+Tetromino.SIZE-1);
-        this.max.setY(this.min.getY()+Tetromino.SIZE-1);
+        this.max = new Point2D(min.getX(),min.getY());
+        this.max.add(SIZE-1, SIZE-1);
     }
 
     public Color getColor() {
@@ -62,19 +62,19 @@ public abstract class Tetromino {
         this.block = block;
     }
 
-    public Point getMin() {
+    public Point2D getMin() {
         return min;
     }
 
-    public void setMin(Point min) {
+    public void setMin(Point2D min) {
         this.min = min;
     }
 
-    public Point getMax() {
+    public Point2D getMax() {
         return max;
     }
 
-    public void setMax(Point max) {
+    public void setMax(Point2D max) {
         this.max = max;
     }
 }
