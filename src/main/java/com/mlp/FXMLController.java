@@ -1,7 +1,6 @@
 package com.mlp;
 
-import com.mlp.oo.entities.Tetromino;
-import com.mlp.oo.entities.TetrominoO;
+import com.mlp.oo.entities.*;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -35,11 +34,14 @@ public class FXMLController implements Initializable {
 
     List<Tetromino> tetrominoes;
 
+    public int MAIN_COLUMNS, MAIN_ROWS;
+    public int NEXT_COLUMNS, NEXT_ROWS;
+
     @FXML
     public void newGame(ActionEvent event) {
         timeline = new Timeline(new KeyFrame(
                 Duration.millis(400),
-                ae -> move(KeyCode.DOWN)
+                ae -> move(KeyCode.RIGHT, tetrominoes.get(0))
         ));
         timeline.setCycleCount(Timeline.INDEFINITE);
         timeline.play();
@@ -48,22 +50,22 @@ public class FXMLController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         tetrominoes = new ArrayList<>();
-        tetrominoes.add(new TetrominoO());
-        int columns = mainGrid.getColumnConstraints().size();
-        int rows = mainGrid.getRowConstraints().size();
-        mainBoard = new Rectangle[rows][columns];
-        for (int i = 0; i < rows; ++i) {
-            for (int j = 0; j < columns; ++j) {
+        tetrominoes.add(new TetrominoT());
+        MAIN_COLUMNS = mainGrid.getColumnConstraints().size();
+        MAIN_ROWS = mainGrid.getRowConstraints().size();
+        mainBoard = new Rectangle[MAIN_ROWS][MAIN_COLUMNS];
+        for (int i = 0; i < MAIN_ROWS; ++i) {
+            for (int j = 0; j < MAIN_COLUMNS; ++j) {
                 mainBoard[i][j] = new Rectangle(25, 25);
                 mainBoard[i][j].setFill(Color.TRANSPARENT);
                 mainGrid.add(mainBoard[i][j], j, i);
             }
         }
-        columns = nextGrid.getColumnConstraints().size();
-        rows = nextGrid.getRowConstraints().size();
-        nextBoard = new Rectangle[rows][columns];
-        for (int i = 0; i < rows; ++i) {
-            for (int j = 0; j < columns; ++j) {
+        NEXT_COLUMNS = nextGrid.getColumnConstraints().size();
+        NEXT_ROWS = nextGrid.getRowConstraints().size();
+        nextBoard = new Rectangle[NEXT_ROWS][NEXT_COLUMNS];
+        for (int i = 0; i < NEXT_ROWS; ++i) {
+            for (int j = 0; j < NEXT_COLUMNS; ++j) {
                 nextBoard[i][j] = new Rectangle(25, 25);
                 nextBoard[i][j].setFill(Color.TRANSPARENT);
                 nextGrid.add(nextBoard[i][j], j, i);
@@ -73,43 +75,52 @@ public class FXMLController implements Initializable {
     }
 
     public void clearBoards() {
-        int columns = mainGrid.getColumnConstraints().size();
-        int rows = mainGrid.getRowConstraints().size();
-        for (int i = 0; i < rows; ++i) {
-            for (int j = 0; j < columns; ++j) {
+        for (int i = 0; i < MAIN_ROWS; ++i) {
+            for (int j = 0; j < MAIN_COLUMNS; ++j) {
                 mainBoard[i][j].setFill(Color.TRANSPARENT);
             }
         }
-        columns = nextGrid.getColumnConstraints().size();
-        rows = nextGrid.getRowConstraints().size();
-        for (int i = 0; i < rows; ++i) {
-            for (int j = 0; j < columns; ++j) {
+        for (int i = 0; i < NEXT_ROWS; ++i) {
+            for (int j = 0; j < NEXT_COLUMNS; ++j) {
                 nextBoard[i][j].setFill(Color.TRANSPARENT);
             }
         }
     }
 
-    public void move(KeyCode key) {
+    public void move(KeyCode key, Tetromino t) {
         clearBoards();
-        for (Tetromino t : tetrominoes) {
-            switch (key) {
-                case DOWN:
+        switch (key) {
+            case DOWN:
+                if (t.getMax().getX() < MAIN_ROWS - 1) {
                     t.setMin(t.getMin().add(1, 0));
                     t.setMax(t.getMax().add(1, 0));
-                    if (t.getMax().getX() > 20) {
-                        t.setMin(Point2D.ZERO);
-                        t.setMax(new Point2D(3, 3));
-                    }
-                    break;
-                case LEFT:
-                    break;
-                case RIGHT:
-                    break;
-                default:
-                    break;
-            }
-            for (int i = (int) t.getMin().getX(); i <= t.getMax().getX(); ++i) {
-                for (int j = (int) t.getMin().getY(); j <= t.getMax().getY(); ++j) {
+                }
+                break;
+            case LEFT:
+                if (t.getMax().getY() > 0) {
+                    t.setMin(t.getMin().subtract(0, 1));
+                    t.setMax(t.getMax().subtract(0, 1));
+                }
+                break;
+            case RIGHT:
+                if (t.getMax().getY() < MAIN_COLUMNS - 1) {
+                    t.setMin(t.getMin().add(0, 1));
+                    t.setMax(t.getMax().add(0, 1));
+                }
+                break;
+            default:
+                break;
+
+        }
+        print(t);
+    }
+
+    public void print(Tetromino t) {
+        for (int i = (int) t.getMin().getX(); i <= t.getMax().getX(); ++i) {
+            for (int j = (int) t.getMin().getY(); j <= t.getMax().getY(); ++j) {
+                int indexX = i - (int) t.getMin().getX();
+                int indexY = j - (int) t.getMin().getY();
+                if (t.getBlock()[indexX][indexY]) {
                     mainBoard[i][j].setFill(t.getColor());
                 }
             }
