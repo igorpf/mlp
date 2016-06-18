@@ -8,7 +8,7 @@ import java.util.ArrayList;
 
 public class Funcoes {
     
-    public static boolean colisao(Tetromino peca1, Tetromino peca2){
+    /*public static boolean colisao(Tetromino peca1, Tetromino peca2){
         boolean ret = false;
         List<Point2D> lista_ocupacoes = new ArrayList();
         int i, j, k;
@@ -44,11 +44,11 @@ public class Funcoes {
                                 ret = true;
                 }
         return ret;
-    }
+    }*/
             
-    public static boolean[][] rotaciona(Tetromino peca, int sentido, Tetromino lista_pecas[]) throws Exception{
+    public static boolean[][] rotaciona(Tetromino peca, int sentido, int[][] mapa){
         int i, j, contador = 0;
-        boolean pode_virar = true;
+        boolean pode_virar = true, pode_descer = true, flag = true;
         Tetromino peca_aux = new TetrominoJ();
         peca_aux.setBlock(peca.getBlock());
         peca_aux.setMax(peca.getMax());
@@ -116,12 +116,35 @@ public class Funcoes {
         
         peca_aux.setBlock(matriz_virada);
         
+        while(pode_descer){
+            pode_descer = false;
+            flag = true;
+            for(j = 0; j < 4; j++)
+                if(matriz_virada[3][j])
+                    flag = false;
+            if(flag){
+                for(i = 3; i > 0; i--)
+                    for(j = 0; j < 4; j++)
+                        matriz_virada[i][j] = matriz_virada[i-1][j];
+                
+                for(j = 0; j < 4; j++)
+                    matriz_virada[0][j] = false;
+                        
+                pode_descer = true;
+            }
+        }
         //TESTE SE É POSSÍVEL VIRAR OU NÃO
-        for(i = 0; i < lista_pecas.length; i++)
+        /*for(i = 0; i < lista_pecas.length; i++)
             if(colisao(lista_pecas[i], peca_aux))
-                pode_virar = false;
+                pode_virar = false;*/
+        for(i = 0; i < 4; i++)
+            for(j = 0; j < 4; j++)
+                if(matriz_virada[i][j])
+                    if (mapa[(int)peca.getMin().getX()+i][(int)peca.getMin().getY()+j] != 0)
+                        pode_virar = false;
+                
         if(!pode_virar)
-            throw new Exception();
+            return null;
         
         return matriz_virada;
     }

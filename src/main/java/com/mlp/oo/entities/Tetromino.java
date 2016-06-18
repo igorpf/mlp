@@ -42,8 +42,8 @@ public abstract class Tetromino {
         this.color = cor;
         this.block = bloco;
         this.min = min;
-        this.max = new Point2D(min.getX(),min.getY());
-        this.max.add(SIZE-1, SIZE-1);
+        this.max = new Point2D(min.getX()+3,min.getY()+3);
+        //this.max.add(SIZE-1, SIZE-1); // não deu certo por algum motivo
     }
 
     public Color getColor() {

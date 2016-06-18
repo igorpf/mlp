@@ -6,6 +6,7 @@
 package com.mlp.oo.entities;
 
 import javafx.scene.paint.Color;
+import javafx.geometry.Point2D;
 
 /**
  *
@@ -21,5 +22,8 @@ public class TetrominoI extends Tetromino{
                                             {false, true, false,false}};
     public TetrominoI() {
         super(Color.STEELBLUE,FORM);
+    }
+    public TetrominoI(Point2D min) {
+        super(Color.STEELBLUE,FORM,min);
     }
 }
