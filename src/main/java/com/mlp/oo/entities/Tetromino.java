@@ -28,22 +28,21 @@ public abstract class Tetromino {
         this.color = Color.BLACK;
         this.block = new boolean[][]{{false}, {false}};
         this.min = new Point2D(0,0);
-        this.max = new Point2D(3,3);
+        this.max = new Point2D(SIZE-1,SIZE-1);
     }
 
     public Tetromino(Color cor, boolean[][] bloco) {
         this.color = cor;
         this.block = bloco;
         this.min = new Point2D(0,0);
-        this.max = new Point2D(3,3);
+        this.max = new Point2D(SIZE-1,SIZE-1);
     }
     
     public Tetromino(Color cor, boolean[][] bloco, Point2D min) {
         this.color = cor;
         this.block = bloco;
         this.min = min;
-        this.max = new Point2D(min.getX()+3,min.getY()+3);
-        //this.max.add(SIZE-1, SIZE-1); // não deu certo por algum motivo
+        this.max = new Point2D(min.getX()+SIZE-1,min.getY()+SIZE-1);
     }
 
     public Color getColor() {

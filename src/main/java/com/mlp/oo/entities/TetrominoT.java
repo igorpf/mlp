@@ -15,7 +15,7 @@ import javafx.geometry.Point2D;
  */ 
 public class TetrominoT extends Tetromino{
     /** This is the template for the tetromino. 
-     *  To change the tetromino form, use the method setForm(form)
+     *  
      */
     public static final boolean [][]FORM = {{false, false, false,false},
                                             {false, false, false, false},
