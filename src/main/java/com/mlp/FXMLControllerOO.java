@@ -20,9 +20,9 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
-import funcoes.Funcoes;
+import com.mlp.oo.functions.Functions;
 
-public class FXMLController implements Initializable {
+public class FXMLControllerOO implements Initializable {
 
     @FXML
     private GridPane mainGrid;
@@ -40,15 +40,18 @@ public class FXMLController implements Initializable {
 
     private Timeline timeline;
 
-    //List<Tetromino> tetrominoes;
     Tetromino currentTetro;
     Tetromino nextTetro;
 
     public int MAIN_COLUMNS, MAIN_ROWS;
+    
     public int NEXT_COLUMNS, NEXT_ROWS;
+    
+    private boolean hasStarted=false;
 
     @FXML
     public void newGame(ActionEvent event) {
+        hasStarted=true;
         timeline = new Timeline(new KeyFrame(
                 Duration.millis(400),
                 ae -> move(KeyCode.DOWN, currentTetro)
@@ -66,13 +69,9 @@ public class FXMLController implements Initializable {
             }
 
         });
-        //tetrominoes = new ArrayList<>();
-
-
-//        tetrominoes.add();
         MAIN_COLUMNS = mainGrid.getColumnConstraints().size();
         MAIN_ROWS = mainGrid.getRowConstraints().size();
-        create();
+        createTetromino();
         mainBoard = new Rectangle[MAIN_ROWS][MAIN_COLUMNS];
         for (int i = 0; i < MAIN_ROWS; ++i) {
             for (int j = 0; j < MAIN_COLUMNS; ++j) {
@@ -100,7 +99,7 @@ public class FXMLController implements Initializable {
 
     }
     
-    public void create(){
+    public void createTetromino(){
         int n = (int) (Math.random() * 7.0);
         switch(n){
             case 0:
@@ -146,7 +145,8 @@ public class FXMLController implements Initializable {
     }
 
     public void move(KeyCode key, Tetromino t) {
-        //clearBoards();
+        if(!hasStarted)
+            return;
         print(t, 0);
         boolean canMove = true;
         switch (key) {
@@ -157,8 +157,6 @@ public class FXMLController implements Initializable {
                             if(t.getBlock()[i][j])
                                 if(board[(int)t.getMin().getX()+i+1][(int)t.getMin().getY()+j] != 0){
                                     canMove = false;
-                                    //System.out.println(i + " " + j + "board: " + ((int)t.getMin().getX()+i+1) + ((int)t.getMin().getY()+j));
-
                                 }
                                     
                     if(canMove){
@@ -174,8 +172,7 @@ public class FXMLController implements Initializable {
                             if (t.getBlock()[i][j])
                                 board[(int)t.getMin().getX() + i][(int)t.getMin().getY() + j] = 1;          
                     print(t, 0);
-
-                    create();
+                    createTetromino();
                 }
                 break;
             case LEFT:
@@ -250,12 +247,12 @@ public class FXMLController implements Initializable {
                 }
                 break;
             case R: // sentido anti-horário
-                if(Funcoes.rotaciona(currentTetro,2,board) != null)
-                    currentTetro.setBlock(Funcoes.rotaciona(currentTetro,1,board));
+                if(Functions.rotate(currentTetro,2,board) != null)
+                    currentTetro.setBlock(Functions.rotate(currentTetro,1,board));
                 break;
             case T: // sentido horário
-                if(Funcoes.rotaciona(currentTetro,2,board) != null)
-                    currentTetro.setBlock(Funcoes.rotaciona(currentTetro,2,board));
+                if(Functions.rotate(currentTetro,2,board) != null)
+                    currentTetro.setBlock(Functions.rotate(currentTetro,2,board));
                 break;
                 
             default:
@@ -263,10 +260,6 @@ public class FXMLController implements Initializable {
         }
         
         print(t, 1);
-
-        /*for (Tetromino te : tetrominoes) {
-            print(te, 1);
-        }*/
     }
 
     public void print(Tetromino t, int apagar) {

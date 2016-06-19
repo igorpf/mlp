@@ -3,20 +3,22 @@ package com.mlp;
 import javafx.application.Application;
 import static javafx.application.Application.launch;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-
+import static javafx.application.Application.launch;
 
 public class MainApp extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("/fxml/view.fxml"));
-        
-        Scene scene = new Scene(root);
+        FXMLControllerOO controller = new FXMLControllerOO();
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/view.fxml"));
+        fxmlLoader.setController(controller);
+        fxmlLoader.load();
+
+        Scene scene = new Scene(fxmlLoader.getRoot());
         scene.getStylesheets().add("/styles/view.css");
-        
+
         stage.setTitle("Tetris");
         stage.setScene(scene);
         stage.show();
