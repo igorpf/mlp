@@ -9,7 +9,7 @@ public class Functions {
     
     public static Color intToColor(int n){
         Map<Integer, Color> map= new HashMap<>();
-        map.put(0, Color.WHITE);
+        map.put(0, Color.TRANSPARENT);
         map.put(1, Color.STEELBLUE);
         map.put(2, Color.HOTPINK);
         map.put(3, Color.ORANGE);
@@ -22,7 +22,7 @@ public class Functions {
     
     public static int colorToInt(Color c){
         Map<Color, Integer> map= new HashMap<>();
-        map.put(Color.WHITE,0);
+        map.put(Color.TRANSPARENT,0);
         map.put(Color.STEELBLUE, 1);
         map.put(Color.HOTPINK, 2);
         map.put(Color.ORANGE, 3);

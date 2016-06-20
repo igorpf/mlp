@@ -151,7 +151,7 @@ public class FXMLControllerOO implements Initializable {
                 nextTetro = new TetrominoZ(new Point2D(0, MAIN_COLUMNS/2.0 - 2));
         }
         if(hasStarted)
-            print(currentTetro, 0);
+            print(currentTetro, false);
     }
 
     public void clearNextBoard() {
@@ -165,7 +165,7 @@ public class FXMLControllerOO implements Initializable {
     public void move(KeyCode key, Tetromino t) {
         if(!hasStarted)
             return;
-        print(t, 1);
+        print(t, true);
         boolean canMove = true, flag = true;
         switch (key) {
             case DOWN:
@@ -282,17 +282,17 @@ public class FXMLControllerOO implements Initializable {
                 break;
         }
         if(flag)
-            print(t, 0);
+            print(t, false);
     }
 
-    public void print(Tetromino t, int erase) {
+    public void print(Tetromino t, boolean erase) {
 
         for (int i = (int) t.getMin().getX(); i <= t.getMax().getX(); ++i) {
             for (int j = (int) t.getMin().getY(); j <= t.getMax().getY(); ++j) {
                 int indexX = i - (int) t.getMin().getX();
                 int indexY = j - (int) t.getMin().getY();
                 if (t.getBlock()[indexX][indexY]) {
-                    if(erase == 0)
+                    if(!erase)
                         mainBoard[i][j].setFill(t.getColor());
                     else{
                         mainBoard[i][j].setFill(Color.TRANSPARENT);
