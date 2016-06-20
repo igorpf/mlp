@@ -102,15 +102,15 @@ public class Functions {
         while(canMoveDown){
             canMoveDown = false;
             flag = true;
-            for(j = 0; j < 4; j++)
-                if(matrixRotated[3][j])
+            for(j = 0; j < columns; j++)
+                if(matrixRotated[rows-1][j])
                     flag = false;
             if(flag){
-                for(i = 3; i > 0; i--)
-                    for(j = 0; j < 4; j++)
+                for(i = rows-1; i > 0; i--)
+                    for(j = 0; j < columns; j++)
                         matrixRotated[i][j] = matrixRotated[i-1][j];
                 
-                for(j = 0; j < 4; j++)
+                for(j = 0; j < columns; j++)
                     matrixRotated[0][j] = false;
                         
                 canMoveDown = true;
@@ -118,8 +118,8 @@ public class Functions {
         }
         
         // determina se pode virar
-        for(i = 0; i < 4; i++)
-            for(j = 0; j < 4; j++)
+        for(i = 0; i < rows-1; i++)
+            for(j = 0; j < columns-1; j++)
                 if(matrixRotated[i][j])
                     if (map[(int)t.getMin().getX()+i][(int)t.getMin().getY()+j] != 0)
                         canRotate = false;
