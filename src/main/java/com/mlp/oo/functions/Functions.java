@@ -1,57 +1,36 @@
 package com.mlp.oo.functions;
 
 import com.mlp.oo.entities.Tetromino;
+import java.util.HashMap;
+import java.util.Map;
 import javafx.scene.paint.Color;
 
 public class Functions {
     
     public static Color intToColor(int n){
-        Color c = Color.TRANSPARENT;
-        switch(n){
-            case 0:
-                c = Color.WHITE;
-                break;
-            case 1:
-                c = Color.STEELBLUE;
-                break;
-            case 2:
-                c = Color.HOTPINK;
-                break;
-            case 3:
-                c = Color.ORANGE;
-                break;
-            case 4:
-                c = Color.GOLD;
-                break;
-            case 5:
-                c = Color.RED;
-                break;
-            case 6:
-                c = Color.DARKMAGENTA;
-                break;
-            case 7:
-                c = Color.DARKGREEN;
-                break;    
-        }
-        return c;
+        Map<Integer, Color> map= new HashMap<>();
+        map.put(0, Color.WHITE);
+        map.put(1, Color.STEELBLUE);
+        map.put(2, Color.HOTPINK);
+        map.put(3, Color.ORANGE);
+        map.put(4, Color.GOLD);
+        map.put(5, Color.RED);
+        map.put(6, Color.DARKMAGENTA);
+        map.put(7, Color.DARKGREEN);
+        return map.get(n);
     }
     
     public static int colorToInt(Color c){
-        if(c.equals(Color.STEELBLUE))
-            return 1;
-        if(c.equals(Color.HOTPINK))
-            return 2;
-        if(c.equals(Color.ORANGE))
-            return 3;
-        if(c.equals(Color.GOLD))
-            return 4;
-        if(c.equals(Color.RED))
-            return 5;
-        if(c.equals(Color.DARKMAGENTA))
-            return 6;
-        if(c.equals(Color.DARKGREEN))
-            return 7;
-        return 0;
+        Map<Color, Integer> map= new HashMap<>();
+        map.put(Color.WHITE,0);
+        map.put(Color.STEELBLUE, 1);
+        map.put(Color.HOTPINK, 2);
+        map.put(Color.ORANGE, 3);
+        map.put(Color.GOLD, 4);
+        map.put(Color.RED, 5);
+        map.put(Color.DARKMAGENTA, 6);
+        map.put(Color.DARKGREEN, 7);
+        return map.get(c);
     }
             
     public static boolean[][] rotate(Tetromino t, int way, int[][] map){

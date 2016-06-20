@@ -8,7 +8,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane fx:id="mainPage" prefHeight="600.0" prefWidth="600.0" styleClass="pane" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" >
+<AnchorPane fx:id="mainPage" prefHeight="600.0" prefWidth="600.0" styleClass="pane" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
     <stylesheets>
         <URL value="@/styles/view.css" />
     </stylesheets>
@@ -66,7 +66,8 @@
             <RowConstraints minHeight="10.0" prefHeight="25.0" vgrow="SOMETIMES" />
         </rowConstraints>
       </GridPane>
-      <Button onAction="#newGame"  layoutX="455.0" layoutY="464.0" mnemonicParsing="false" styleClass="button" text="New Game" />
+      <Button layoutX="455.0" layoutY="464.0" mnemonicParsing="false" onAction="#newGame" styleClass="button" text="New Game" />
       <Label layoutX="469.0" layoutY="235.0" text="Points" />
+      <Label fx:id="scoreLabel" layoutX="471.0" layoutY="257.0" prefHeight="15.0" prefWidth="40.0" text="0" textAlignment="CENTER" />
    </children>
 </AnchorPane>

@@ -21,6 +21,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
 import com.mlp.oo.functions.Functions;
+import javafx.scene.control.Label;
 
 public class FXMLControllerOO implements Initializable {
 
@@ -31,6 +32,8 @@ public class FXMLControllerOO implements Initializable {
     private GridPane nextGrid;
     @FXML
     private AnchorPane mainPage;
+    @FXML
+    private Label scoreLabel;
 
     private Rectangle[][] mainBoard;
 
@@ -194,7 +197,7 @@ public class FXMLControllerOO implements Initializable {
                         if(board[3][j] > 0)
                             gameOver();
                     score += 3;
-                    System.out.println(score);
+                    scoreLabel.setText(((Integer)score).toString());
                 }
                 break;
             case LEFT:
