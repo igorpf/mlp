@@ -53,7 +53,10 @@ public class FXMLControllerFuncional implements Initializable {
     private Tetromino nextTetro;
 
     public int MAIN_COLUMNS, MAIN_ROWS;
+
     public int NEXT_COLUMNS, NEXT_ROWS;
+
+    private int index;
 
     @FXML
     public void newGame(ActionEvent event) {
@@ -93,7 +96,7 @@ public class FXMLControllerFuncional implements Initializable {
         mainPage.setOnKeyPressed((KeyEvent event) -> {
             move(event.getCode(), currentTetro);
         });
-        currentTetro = new TetrominoO(new Point2D(0,4));
+        currentTetro = new TetrominoO(new Point2D(0, 4));
     }
 
     public void move(KeyCode key, Tetromino t) {
@@ -101,32 +104,70 @@ public class FXMLControllerFuncional implements Initializable {
             return;
         }
         Function<Point2D, Point2D> f;
+        Function<List<Boolean>, List<Boolean>> fList;
         boolean canMove = true, flag = true;
         Point2D old;
+        List<Integer> indices;
         switch (key) {
             case DOWN:
                 f = (p) -> {
-                    return ((p.getX()+1)<MAIN_ROWS)?p.add(1, 0):p;
+                    return ((p.getX() + 1) < MAIN_ROWS) ? p.add(1, 0) : p;
                 };
-                old = new Point2D(t.max.getX(),t.max.getY());
+                old = new Point2D(t.max.getX(), t.max.getY());
                 t.max = f.apply(t.max);
-                t.min = (old.equals(t.max))?t.min:f.apply(t.min);
+                t.min = (old.equals(t.max)) ? t.min : f.apply(t.min);
                 break;
             case LEFT:
-                f = (p) -> {
-                    return ((p.getY()-1)>=0)?p.subtract(0, 1):p;
-                };
-                old = new Point2D(t.min.getX(),t.min.getY());
-                t.min = f.apply(t.min);
-                t.max = (old.equals(t.min))?t.max:f.apply(t.max);
+                //get the indices of the leftmost column
+                indices=IntStream.range(0, t.block.size())
+                                 .boxed()
+                                 .filter(b -> b % Tetromino.SIZE == 0)
+                                 .collect(Collectors.toList());
+                if (indices.stream().map(i->t.block.get(i)).allMatch(p -> p == false)) {
+                    index = 0;
+                    fList = (l) -> {
+                        return l.stream()
+                                .map(e -> {
+                                    return (index++ % Tetromino.SIZE == (Tetromino.SIZE - 1)) ? false
+                                            : l.get(index);
+                                })
+                                .collect(Collectors.toList());
+                    };
+                    t.block = fList.apply(t.block);
+                } else { //não moveu dentro do bounding box, então move o ponto
+                    f = (p) -> {
+                        return ((p.getY() - 1) >= 0) ? p.subtract(0, 1) : p;
+                    };
+                    old = new Point2D(t.min.getX(), t.min.getY());
+                    t.min = f.apply(t.min);
+                    t.max = (old.equals(t.min)) ? t.max : f.apply(t.max);
+                }
                 break;
             case RIGHT:
-                f = (p) -> {
-                    return ((p.getY()+1)<MAIN_COLUMNS)?p.add(0, 1):p;
-                };
-                old = new Point2D(t.max.getX(),t.max.getY());
-                t.max = f.apply(t.max);
-                t.min = (old.equals(t.max))?t.min:f.apply(t.min);
+                //get the indices of the rightmost column
+                indices=IntStream.range(0, t.block.size())
+                                 .boxed()
+                                 .filter(b -> b % Tetromino.SIZE == (Tetromino.SIZE - 1))
+                                 .collect(Collectors.toList());
+                if (indices.stream().map(i->t.block.get(i)).allMatch(p -> p == false)) {
+                    index = 0;
+                    fList = (l) -> {
+                        return l.stream()
+                                .map(e -> {
+                                    return (index++ % Tetromino.SIZE == 0) ? false
+                                            : l.get(index-2);
+                                })
+                                .collect(Collectors.toList());
+                    };
+                    t.block = fList.apply(t.block);
+                } else {
+                    f = (p) -> {
+                        return ((p.getY() + 1) < MAIN_COLUMNS) ? p.add(0, 1) : p;
+                    };
+                    old = new Point2D(t.max.getX(), t.max.getY());
+                    t.max = f.apply(t.max);
+                    t.min = (old.equals(t.max)) ? t.min : f.apply(t.min);
+                }
                 break;
             case R: // sentido anti-horário
                 break;
@@ -156,8 +197,9 @@ public class FXMLControllerFuncional implements Initializable {
             }
         }).collect(Collectors.toList());
     }
-    public void clearBoard(){
-        mainBoard = mainBoard.stream().map(r->{
+
+    public void clearBoard() {
+        mainBoard = mainBoard.stream().map(r -> {
             r.setFill(Color.TRANSPARENT);
             return r;
         }).collect(Collectors.toList());
