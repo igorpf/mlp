@@ -6,11 +6,40 @@
 package com.mlp.funcional;
 
 import com.mlp.funcional.Tetromino;
+import java.util.HashMap;
+import java.util.Map;
+import javafx.scene.paint.Color;
 /**
  *
  * @author igor
  */
 public class Functions {
+    
+    public static Color intToColor(int n){
+        Map<Integer, Color> map= new HashMap<>();
+        map.put(0, Color.WHITE);
+        map.put(1, Color.STEELBLUE);
+        map.put(2, Color.HOTPINK);
+        map.put(3, Color.ORANGE);
+        map.put(4, Color.GOLD);
+        map.put(5, Color.RED);
+        map.put(6, Color.DARKMAGENTA);
+        map.put(7, Color.DARKGREEN);
+        return map.get(n);
+    }
+    
+    public static int colorToInt(Color c){
+        Map<Color, Integer> map= new HashMap<>();
+        map.put(Color.WHITE,0);
+        map.put(Color.STEELBLUE, 1);
+        map.put(Color.HOTPINK, 2);
+        map.put(Color.ORANGE, 3);
+        map.put(Color.GOLD, 4);
+        map.put(Color.RED, 5);
+        map.put(Color.DARKMAGENTA, 6);
+        map.put(Color.DARKGREEN, 7);
+        return map.get(c);
+    }
     public static boolean[][] rotate(Tetromino t, int way, int[][] map){
         int i, j, counter = 0;
         boolean canRotate = true, canMoveDown = true, flag;

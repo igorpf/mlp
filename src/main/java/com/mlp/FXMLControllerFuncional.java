@@ -96,7 +96,7 @@ public class FXMLControllerFuncional implements Initializable {
         mainPage.setOnKeyPressed((KeyEvent event) -> {
             move(event.getCode(), currentTetro);
         });
-        currentTetro = new TetrominoO(new Point2D(0, 4));
+        currentTetro = new TetrominoZ(new Point2D(0, 4));
     }
 
     public void move(KeyCode key, Tetromino t) {
@@ -108,6 +108,7 @@ public class FXMLControllerFuncional implements Initializable {
         boolean canMove = true, flag = true;
         Point2D old;
         List<Integer> indices;
+        print(t, true);
         switch (key) {
             case DOWN:
                 f = (p) -> {
@@ -177,11 +178,10 @@ public class FXMLControllerFuncional implements Initializable {
             default:
                 break;
         }
-        clearBoard();
-        print(t);
+        print(t, false);
     }
 
-    public void print(Tetromino t) {
+    public void print(Tetromino t, boolean clear) {
         Point2D min = t.min, max = t.max;
         mainBoard = mainBoard.stream().map(r -> {
             int index = mainBoard.indexOf(r);
@@ -190,7 +190,8 @@ public class FXMLControllerFuncional implements Initializable {
             int dyMin = (int) (y - min.getY()), dyMax = (int) (y - max.getY());
             if (dxMin >= 0 && dxMax <= 0 && dyMin >= 0 && dyMax <= 0// está dentro do bounding box
                     && t.block.get(dxMin * Tetromino.SIZE + dyMin)) {
-                r.setFill(t.color);
+                r.setFill((!clear)?t.color: Color.TRANSPARENT);
+                board.set(index, (clear)?0:Functions.colorToInt(t.color));
                 return r;
             } else {
                 return r;
@@ -204,4 +205,6 @@ public class FXMLControllerFuncional implements Initializable {
             return r;
         }).collect(Collectors.toList());
     }
+    
+    
 }
