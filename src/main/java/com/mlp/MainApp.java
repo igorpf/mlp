@@ -1,7 +1,6 @@
 package com.mlp;
 
 import javafx.application.Application;
-import static javafx.application.Application.launch;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
@@ -11,9 +10,11 @@ public class MainApp extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-        FXMLControllerOO controller = new FXMLControllerOO();
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/view.fxml"));
-        fxmlLoader.setController(controller);
+//        FXMLControllerOO controller = new FXMLControllerOO();
+//        fxmlLoader.setController(controller);
+        FXMLControllerFuncional controller = new FXMLControllerFuncional();
+        fxmlLoader.setController(controller);;
         fxmlLoader.load();
 
         Scene scene = new Scene(fxmlLoader.getRoot());
