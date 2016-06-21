@@ -11,10 +11,9 @@ public class MainApp extends Application {
     @Override
     public void start(Stage stage) throws Exception {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/view.fxml"));
-        FXMLControllerOO controller = new FXMLControllerOO();
+        //FXMLControllerOO controller = new FXMLControllerOO();
+        FXMLControllerFuncional controller = new FXMLControllerFuncional();
         fxmlLoader.setController(controller);
-//        FXMLControllerFuncional controller = new FXMLControllerFuncional();
-//        fxmlLoader.setController(controller);
         fxmlLoader.load();
 
         Scene scene = new Scene(fxmlLoader.getRoot());
